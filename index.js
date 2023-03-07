@@ -4,7 +4,7 @@ const connect= require("./Config/db.js")
 const cors=require('cors')
 server.use(express.json())
 server.use(cors())
-const User=require("./User/User.modal")
+const User=require("./User/User.modal.js")
 
 server.get("/",async(req,res)=>{
     try{
@@ -17,10 +17,14 @@ server.get("/",async(req,res)=>{
 
 server.post("/user",async(req,res)=>{
     try{
-        const product=req.body
-        console.log(product)
-    let user= await User.insertMany({product})
-    user.save()
+        let { productid, quantity} = req.body
+        
+    let user =  new User({
+        productid:productid,
+quantity:quantity
+    })
+    console.log(user)
+    await user.save()
 
     res.send(user)
 
